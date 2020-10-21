@@ -1,0 +1,1 @@
+# generator-dami-admin-template

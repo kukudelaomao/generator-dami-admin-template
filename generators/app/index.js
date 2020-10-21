@@ -21,8 +21,8 @@ const APP_TYPE = {
     electron: 'electron'
 };
 const GIT_BASE = 'https://github.com/';
-const DAMI_WEB_REPOSITORY = 'kukudelaomao/dami-admin-template';
-const ELECTRON_REPOSITORY = 'kukudelaomao/vue-electron-admin';
+const DAMI_WEB_REPOSITORY = 'direct:https://github.com/kukudelaomao/dami-admin-template.git';
+const ELECTRON_REPOSITORY = 'direct:https://github.com/kukudelaomao/vue-electron-admin.git';
 const ORA_SPINNER = {
     "interval": 80,
     "frames": [
@@ -254,7 +254,7 @@ class DamiAdminTemplateGenerator extends Generator {
     _downloadTemplate(repository) {
         return new Promise((resolve, reject) => {
             const dirPath = this.destinationPath(this.dirName, '.tmp');
-            download(repository, dirPath, err => err ? reject(err) : resolve());
+            download(repository, dirPath, { clone: true }, err => err ? reject(err) : resolve());
         });
     }
 
@@ -288,14 +288,14 @@ class DamiAdminTemplateGenerator extends Generator {
         this.log('✿  Generate the project template and configuration...');
 
         let spinner = ora({
-            text: `Download the template from ${GIT_BASE}${repository}...`,
+            text: `Download the template from ${repository}...`,
             spinner: ORA_SPINNER
         }).start();
         this._downloadTemplate(repository)
             .then(() => {
                 spinner.stopAndPersist({
                     symbol: chalk.green('   ✔'),
-                    text: `Finish downloading the template from ${GIT_BASE}${repository}`
+                    text: `Finish downloading the template from ${repository}`
                 });
 
                 spinner = ora({
